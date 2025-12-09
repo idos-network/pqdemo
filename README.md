@@ -53,8 +53,8 @@ flowchart TB
         AESDEC --> PLAIN["✉️ Plaintext<br/>Message"]
     end
 
-    keygen -.->|"share publicly"| encrypt
-    keygen -.->|"keep secret"| decrypt
+    PK -.->|"share publicly"| encrypt
+    SK -.->|"keep secret"| decrypt
     encrypt -->|"send securely"| decrypt
 
     style keygen stroke:#19FB9B,stroke-width:2px
