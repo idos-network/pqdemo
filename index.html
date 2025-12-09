@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum-Safe Encryption | idOS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000'/><rect x='4' y='4' width='24' height='24' rx='4' fill='none' stroke='%2319FB9B' stroke-width='2'/></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="1" width="30" height="30" rx="5" stroke="#19FB9B" stroke-width="2"/>
+                    <rect x="8" y="8" width="16" height="16" rx="3" stroke="#19FB9B" stroke-width="2"/>
+                </svg>
+                <h1>Quantum-Safe Encryption</h1>
+            </div>
+            <p class="subtitle">Post-quantum cryptography using Classic McEliece + AES-GCM</p>
+        </header>
+
+        <!-- Key Generation -->
+        <section class="card" id="keygen-section">
+            <h2>Key Generation</h2>
+            <p class="description">Generate a new McEliece keypair. Public keys are ~1.3 MB.</p>
+            
+            <button id="generate-btn" class="btn primary">
+                <span class="btn-text">Generate Keypair</span>
+                <span class="spinner hidden"></span>
+            </button>
+            
+            <div id="keygen-status" class="status hidden"></div>
+            
+            <div id="keys-output" class="hidden">
+                <div class="key-group">
+                    <label>
+                        Public Key 
+                        <span class="key-size" id="pubkey-size"></span>
+                    </label>
+                    <div class="key-actions">
+                        <button class="btn small" id="copy-pubkey">Copy</button>
+                        <button class="btn small" id="download-pubkey">Download</button>
+                    </div>
+                    <textarea id="public-key" readonly placeholder="Public key will appear here..."></textarea>
+                </div>
+                
+                <div class="key-group">
+                    <label>
+                        Private Key 
+                        <span class="key-size" id="privkey-size"></span>
+                        <span class="warning">Keep secret</span>
+                    </label>
+                    <div class="key-actions">
+                        <button class="btn small" id="copy-privkey">Copy</button>
+                        <button class="btn small" id="download-privkey">Download</button>
+                    </div>
+                    <textarea id="private-key" readonly placeholder="Private key will appear here..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Encryption -->
+        <section class="card" id="encrypt-section">
+            <h2>Encrypt</h2>
+            <p class="description">Encrypt a message using a recipient's public key</p>
+            
+            <div class="input-group">
+                <label for="encrypt-pubkey">Recipient's Public Key</label>
+                <div class="key-actions">
+                    <button class="btn small" id="use-generated-pubkey">Use Generated</button>
+                    <button class="btn small" id="load-pubkey-file">Load File</button>
+                    <input type="file" id="pubkey-file-input" accept=".pem,.txt,.key" class="hidden">
+                </div>
+                <textarea id="encrypt-pubkey" placeholder="Paste public key or load from file..."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="plaintext">Message</label>
+                <textarea id="plaintext" placeholder="Enter your message here..."></textarea>
+            </div>
+            
+            <button id="encrypt-btn" class="btn primary">
+                <span class="btn-text">Encrypt</span>
+                <span class="spinner hidden"></span>
+            </button>
+            
+            <div id="encrypt-status" class="status hidden"></div>
+            
+            <div id="ciphertext-output" class="hidden">
+                <div class="input-group">
+                    <label>
+                        Ciphertext
+                        <span class="key-size" id="ciphertext-size"></span>
+                    </label>
+                    <div class="key-actions">
+                        <button class="btn small" id="copy-ciphertext">Copy</button>
+                        <button class="btn small" id="download-ciphertext">Download</button>
+                    </div>
+                    <textarea id="ciphertext" readonly></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Decryption -->
+        <section class="card" id="decrypt-section">
+            <h2>Decrypt</h2>
+            <p class="description">Decrypt a message using your private key</p>
+            
+            <div class="input-group">
+                <label for="decrypt-privkey">Your Private Key</label>
+                <div class="key-actions">
+                    <button class="btn small" id="use-generated-privkey">Use Generated</button>
+                    <button class="btn small" id="load-privkey-file">Load File</button>
+                    <input type="file" id="privkey-file-input" accept=".pem,.txt,.key" class="hidden">
+                </div>
+                <textarea id="decrypt-privkey" placeholder="Paste private key or load from file..."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="ciphertext-input">Ciphertext</label>
+                <div class="key-actions">
+                    <button class="btn small" id="use-encrypted-ciphertext">Use Encrypted Output</button>
+                    <button class="btn small" id="load-ciphertext-file">Load File</button>
+                    <input type="file" id="ciphertext-file-input" accept=".enc,.txt" class="hidden">
+                </div>
+                <textarea id="ciphertext-input" placeholder="Paste encrypted message here..."></textarea>
+            </div>
+            
+            <button id="decrypt-btn" class="btn primary">
+                <span class="btn-text">Decrypt</span>
+                <span class="spinner hidden"></span>
+            </button>
+            
+            <div id="decrypt-status" class="status hidden"></div>
+            
+            <div id="decrypted-output" class="hidden">
+                <div class="input-group">
+                    <label>Decrypted Message</label>
+                    <div class="key-actions">
+                        <button class="btn small" id="copy-decrypted">Copy</button>
+                    </div>
+                    <textarea id="decrypted-text" readonly></textarea>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>
+                Built with <a href="https://github.com/cyph/pqcrypto.js" target="_blank">pqcrypto.js</a> 
+                · McEliece8192128 · ~256-bit post-quantum security
+            </p>
+            <p class="disclaimer">
+                This is a demonstration. For production use, implement proper key management.
+            </p>
+        </footer>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

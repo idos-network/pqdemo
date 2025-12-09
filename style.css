@@ -1,0 +1,363 @@
+/* idOS Brand Styles - Quantum-Safe Encryption Demo */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --mint: #19FB9B;
+    --mint-dim: rgba(25, 251, 155, 0.15);
+    --mint-border: rgba(25, 251, 155, 0.3);
+    --bg: #0a0a0a;
+    --bg-card: #141414;
+    --bg-input: #1a1a1a;
+    --text: #ffffff;
+    --text-muted: #888888;
+    --text-dim: #555555;
+    --border: #2a2a2a;
+    --error: #ff4444;
+    --error-dim: rgba(255, 68, 68, 0.15);
+}
+
+body {
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.logo svg {
+    width: 32px;
+    height: 32px;
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Cards */
+.card {
+    background: var(--bg-card);
+    border-radius: 1rem;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.card h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+}
+
+.description {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background: transparent;
+    color: var(--text);
+}
+
+.btn:hover:not(:disabled) {
+    border-color: var(--text-dim);
+    background: var(--bg-input);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn.primary {
+    background: var(--mint);
+    border-color: var(--mint);
+    color: #000;
+    font-weight: 600;
+}
+
+.btn.primary:hover:not(:disabled) {
+    background: #14e88a;
+    border-color: #14e88a;
+}
+
+.btn.small {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+/* Spinner */
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Status Messages */
+.status {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.status.loading {
+    background: var(--mint-dim);
+    border: 1px solid var(--mint-border);
+    color: var(--mint);
+}
+
+.status.success {
+    background: var(--mint-dim);
+    border: 1px solid var(--mint-border);
+    color: var(--mint);
+}
+
+.status.error {
+    background: var(--error-dim);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    color: var(--error);
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+/* Key Groups */
+.key-group {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--bg);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+}
+
+.key-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.key-size {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.warning {
+    font-size: 0.75rem;
+    color: #ff9500;
+    font-weight: 400;
+}
+
+/* Key Actions */
+.key-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Textareas */
+textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--bg-input);
+    color: var(--text);
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: 0.8rem;
+    resize: vertical;
+    line-height: 1.5;
+    transition: border-color 0.15s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--mint);
+}
+
+textarea[readonly] {
+    background: var(--bg);
+    color: var(--text-muted);
+}
+
+textarea::placeholder {
+    color: var(--text-dim);
+}
+
+#public-key, #private-key, #encrypt-pubkey, #decrypt-privkey {
+    min-height: 70px;
+    max-height: 120px;
+}
+
+#ciphertext, #ciphertext-input {
+    min-height: 80px;
+}
+
+#decrypted-text {
+    min-height: 70px;
+    background: var(--mint-dim);
+    border-color: var(--mint-border);
+    color: var(--text);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+footer p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+footer a {
+    color: var(--mint);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
+
+.disclaimer {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+/* Hidden utility */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .key-actions {
+        flex-direction: column;
+    }
+    
+    .key-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Toast notifications */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-card);
+    color: var(--text);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--mint-border);
+    font-size: 0.875rem;
+    z-index: 1000;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}

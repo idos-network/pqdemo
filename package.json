@@ -1,0 +1,17 @@
+{
+  "name": "pqdemo",
+  "version": "1.0.0",
+  "description": "Quantum-safe encryption demo using McEliece + AES-GCM",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "mceliece": "^5.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
