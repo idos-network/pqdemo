@@ -322,7 +322,10 @@ const elements = {
 // Key Generation
 elements.generateBtn.addEventListener('click', async () => {
     setButtonLoading(elements.generateBtn, true);
-    setStatus('keygen-status', '⏳ Generating keypair... This may take 10-30 seconds.', 'loading');
+    setStatus('keygen-status', 'Generating keypair... This may take 10-30 seconds.', 'loading');
+    
+    // Allow UI to update before heavy computation
+    await new Promise(resolve => setTimeout(resolve, 50));
     
     try {
         const startTime = performance.now();
