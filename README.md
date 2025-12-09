@@ -13,10 +13,68 @@ This demo showcases quantum-resistant asymmetric encryption using:
 
 ### How It Works
 
-McEliece is a KEM, not a direct encryption algorithm. The hybrid encryption scheme:
+McEliece is a KEM (Key Encapsulation Mechanism), not a direct encryption algorithm. This demo uses a **hybrid encryption scheme** combining post-quantum key exchange with symmetric encryption:
 
-1. **Encryption**: Generate a random shared secret using the recipient's public key, then use AES-GCM with that secret to encrypt the plaintext
-2. **Decryption**: Recover the shared secret using the private key, then decrypt the AES-GCM ciphertext
+```mermaid
+flowchart TB
+    subgraph keygen["🔑 Key Generation"]
+        direction LR
+        KG[McEliece KeyPair] --> PK["📤 Public Key<br/><i>~1.3 MB</i>"]
+        KG --> SK["📥 Private Key<br/><i>~14 KB</i>"]
+    end
+
+    subgraph encrypt["🔒 Encryption"]
+        direction TB
+        PK2["Recipient's<br/>Public Key"] --> KEM["McEliece<br/>Encapsulate"]
+        KEM --> SECRET1["Shared Secret<br/><i>32 bytes</i>"]
+        KEM --> KEMCT["KEM Ciphertext<br/><i>~240 bytes</i>"]
+        SECRET1 --> AES["AES-GCM<br/>Encrypt"]
+        MSG["Plaintext<br/>Message"] --> AES
+        IV["Random IV<br/><i>12 bytes</i>"] --> AES
+        AES --> AESCT["Encrypted<br/>Data"]
+        KEMCT --> PKG["Package"]
+        IV --> PKG
+        AESCT --> PKG
+        PKG --> FINAL["📦 Final Ciphertext<br/><i>Base64 encoded</i>"]
+    end
+
+    subgraph decrypt["🔓 Decryption"]
+        direction TB
+        CT["📦 Ciphertext"] --> UNPKG["Unpackage"]
+        UNPKG --> KEMCT2["KEM<br/>Ciphertext"]
+        UNPKG --> IV2["IV"]
+        UNPKG --> AESCT2["Encrypted<br/>Data"]
+        KEMCT2 --> KEMDEC["McEliece<br/>Decapsulate"]
+        SK2["Your<br/>Private Key"] --> KEMDEC
+        KEMDEC --> SECRET2["Shared Secret<br/><i>32 bytes</i>"]
+        SECRET2 --> AESDEC["AES-GCM<br/>Decrypt"]
+        IV2 --> AESDEC
+        AESCT2 --> AESDEC
+        AESDEC --> PLAIN["✉️ Plaintext<br/>Message"]
+    end
+
+    keygen -.->|"share publicly"| encrypt
+    keygen -.->|"keep secret"| decrypt
+    encrypt -->|"send securely"| decrypt
+
+    style keygen stroke:#19FB9B,stroke-width:2px
+    style encrypt stroke:#19FB9B,stroke-width:2px
+    style decrypt stroke:#19FB9B,stroke-width:2px
+    style SECRET1 fill:#19FB9B,color:#000
+    style SECRET2 fill:#19FB9B,color:#000
+```
+
+#### Step-by-Step
+
+1. **Encryption**: 
+   - McEliece KEM generates a random `shared secret` + `KEM ciphertext` from the recipient's public key
+   - AES-GCM encrypts the plaintext using the shared secret as the key
+   - The KEM ciphertext, IV, and encrypted data are packaged together
+
+2. **Decryption**: 
+   - Unpackage the ciphertext components
+   - McEliece KEM recovers the `shared secret` from the KEM ciphertext using the private key
+   - AES-GCM decrypts the data using the recovered shared secret
 
 ## Features
 
